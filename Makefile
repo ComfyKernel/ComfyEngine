@@ -11,11 +11,8 @@ SOURCE  := $(ORIGIN)/
 # Get the main makefiles #
 FILES := $(patsubst %/Makefile,%/,$(shell find $(SOURCE) -mindepth 2 -maxdepth 2 -name "Makefile" -type f))
 
-# Choose the used libraries #
-# And set the compile flags #
-LIBS    := -lGL -lGLEW2 -lSDL2 -lstdc++fs
-
-CFLAGS  := -Wall -Wextra -g $(LIBS) -I$(INCLUDE) -L$(BUILD) -std=gnu++17
+# Set the compile flags #
+CFLAGS  := -Wall -Wextra -g -I$(INCLUDE) -L$(BUILD) -std=gnu++17
 AFLAGS  := -rvs
 
 # Set the compilers to GCC and G++ #
@@ -44,8 +41,8 @@ info:
 	@echo -en "[\e[32;1m  INFO  \e[0m]  Archive          :" $(AR) "\n"
 	@echo -en "[\e[32;1m  INFO  \e[0m]  OS               :" $(shell uname -a)
 	@echo -en "\n"
-	@echo -en "[\e[32;1m  INFO  \e[0m]  Architecture     :" $(shell uname -m) "\n\n"
-
+	@echo -en "[\e[32;1m  INFO  \e[0m]  Architecture     :" $(shell uname -m) "\n"
+	@echo -en "[\e[32;1m  INFO  \e[0m]\n"
 	@echo -en "[\e[32;1m  INFO  \e[0m]  [--Directory Info--]\n"
 	@echo -en "[\e[32;1m  INFO  \e[0m]  Origin  :" $(ORIGIN)  "\n"
 	@echo -en "[\e[32;1m  INFO  \e[0m]  Build   :" $(BUILD)   "\n"
