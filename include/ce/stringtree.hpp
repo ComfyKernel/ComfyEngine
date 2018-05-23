@@ -5,11 +5,12 @@
 #include <vector>
 
 namespace ce {
+  class stringTree;
   class stringTreeItem {
   protected:
     stringTree*     _root   = nullptr;
     std::string     _name   = "";
-    stringTreeitem* _parent = nullptr;
+    stringTreeItem* _parent = nullptr;
     std::vector<stringTreeItem*> _children;
     
   public:
@@ -23,16 +24,16 @@ namespace ce {
     std::vector<stringTreeItem*> const& children();
     
     void setRoot  (stringTree*     croot  = nullptr);
-    void setParent(stringTreeRoot* parent = nullptr);
+    void setParent(stringTreeItem* parent = nullptr);
     void setName  (const std::string& cname = "");
     
     void addChild   (stringTreeItem* item = nullptr);
     void removeChild(stringTreeItem* item = nullptr);
-    stringTreeItem* findChild(stringTreeItem* item = nullptr);
+    bool childExists(stringTreeItem* item = nullptr);
     stringTreeItem* findChild(const std::string& cname = "");
-  }
+  };
     
-    class stringTree {
+  class stringTree {
     protected:
       stringTreeItem rootItem;
     public:
@@ -40,7 +41,7 @@ namespace ce {
       
       void addChild   (stringTreeItem* item = nullptr);
       void removeChild(stringTreeItem* item = nullptr);
-      stringTreeItem* findChild(stringTreeItem* item = nullptr);
+      bool childExists(stringTreeItem* item = nullptr);
       stringTreeItem* findChild(const std::string& cname = "");
-    }
+  };
 }

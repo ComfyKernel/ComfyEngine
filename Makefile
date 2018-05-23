@@ -52,7 +52,7 @@ info:
 	@echo -en "[\e[34;1m  BUILD  \e[0m] Starting Build\n\n"
 
 $(BUILD)/$(O): info
-	@$(foreach fi,$(FILES),$(MAKE) -C $(fi))
+	@$(foreach fi,$(FILES),$(MAKE) -C $(fi);)
 
 clean:
 	rm -v $(shell find $(SOURCE) -type f -name "*.o") $(shell find $(BUILD) -type f -name "*.o") $(shell find $(BUILD) -type f -name "*.a")
