@@ -3,12 +3,19 @@
 
 int main(int argc, char *argv[]) {
   ce::stringTree st;
-  ce::stringTreeItem* item = new ce::stringTreeItem();
-  item->setName("Coolio");
-  item->value = "value or something";
-  st.addChild(item);
+  std::cout<<"Adding Item\n";
+  
+  st.add("Coolio", "Cool Value");
 
-  std::cout<<"Item : "<<st.findChild(item->name())->value<<"\n";
+  std::cout<<"Finding Item\n";
+
+  ce::stringTreeItem* item = st.find("Coolio");
+
+  std::cout<<"Item : "<<item->value<<"\n";
+
+  item = st.find("Doesn't Exist");
+  
+  std::cout<<"Item : "<<item->value<<"\n";
   
   return 0;
 }

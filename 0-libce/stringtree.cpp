@@ -29,20 +29,20 @@ void ce::stringTreeItem::setRoot(ce::stringTree* croot) {
 
 void ce::stringTreeItem::setParent(ce::stringTreeItem* cparent) {
   if(_parent) {
-    _parent->removeChild(this);
+    _parent->remove(this);
   }
 
   _parent = cparent;
   if(!_parent) return;
   
-  _parent->addChild(this);
+  _parent->add(this);
 }
 
 void ce::stringTreeItem::setName(const std::string& name) {
   _name = name;
 }
 
-void ce::stringTreeItem::addChild(ce::stringTreeItem* item) {
+void ce::stringTreeItem::add(ce::stringTreeItem* item) {
   if(item->parent() != this) {
     item->setParent(this);
     return;
@@ -51,7 +51,14 @@ void ce::stringTreeItem::addChild(ce::stringTreeItem* item) {
   _children.push_back(item);
 }
 
-void ce::stringTreeItem::removeChild(ce::stringTreeItem* item) {
+void ce::stringTreeItem::add(const std::string& cname, const std::string& cvalue) {
+  ce::stringTreeItem* item = new ce::stringTreeItem(_root, this);
+  item->setName(cname);
+  item->value = cvalue;
+  add(item);
+}
+
+void ce::stringTreeItem::remove(ce::stringTreeItem* item) {
   for(unsigned i = 0; i < _children.size(); ++i) {
     if(_children[i] == item) {
       _children[i]->setParent(nullptr);
@@ -60,10 +67,10 @@ void ce::stringTreeItem::removeChild(ce::stringTreeItem* item) {
     }
   }
 
-  std::cout<<"[stringTreeItem::removeChild] Could not find item!\n";
+  std::cout<<"[stringTreeItem::remove] Could not find item!\n";
 }
 
-bool ce::stringTreeItem::childExists(ce::stringTreeItem* item) {
+bool ce::stringTreeItem::exists(ce::stringTreeItem* item) {
   for(const auto& i : _children) {
     if(i == item)
       return true;
@@ -72,13 +79,23 @@ bool ce::stringTreeItem::childExists(ce::stringTreeItem* item) {
   return false;
 }
 
-ce::stringTreeItem* ce::stringTreeItem::findChild(const std::string& cname) {
+ce::stringTreeItem* ce::stringTreeItem::find(const std::string& cname) {
+  // std::cout<<"Finding item '"<<cname<<"' in '"<<_name<<"' ("<<(void*)this<<")\n";  
   for(auto& i : _children) {
-    if(i->name() == cname)
-      return i;
+    if(i != nullptr) {
+      if(i->_name == cname)
+	return i;
+      
+      auto v = i->find(cname);
+      if(v != this && v != i)
+	return v;
+    }
   }
-
-  return nullptr;
+  
+  if(_parent == nullptr)
+    return this;
+  
+  return _parent;
 }
 
 ce::stringTree::stringTree()
@@ -86,19 +103,22 @@ ce::stringTree::stringTree()
 
 }
 
-void ce::stringTree::addChild(ce::stringTreeItem* item) {
-  item->setParent(&rootItem);
-  rootItem.addChild(item);
+void ce::stringTree::add(ce::stringTreeItem* item) {
+  rootItem.add(item);
 }
 
-void ce::stringTree::removeChild(ce::stringTreeItem* item) {
-  rootItem.removeChild(item);
+void ce::stringTree::add(const std::string& cname, const std::string& cvalue) {
+  rootItem.add(cname, cvalue);
 }
 
-bool ce::stringTree::childExists(ce::stringTreeItem* item) {
-  return rootItem.childExists(item);
+void ce::stringTree::remove(ce::stringTreeItem* item) {
+  rootItem.remove(item);
 }
 
-ce::stringTreeItem* ce::stringTree::findChild(const std::string& cname) {
-  return rootItem.findChild(cname);
+bool ce::stringTree::exists(ce::stringTreeItem* item) {
+  return rootItem.exists(item);
+}
+
+ce::stringTreeItem* ce::stringTree::find(const std::string& cname) {
+  return rootItem.find(cname);
 }

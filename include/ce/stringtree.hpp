@@ -27,21 +27,23 @@ namespace ce {
     void setParent(stringTreeItem* parent = nullptr);
     void setName  (const std::string& cname = "");
     
-    void addChild   (stringTreeItem* item = nullptr);
-    void removeChild(stringTreeItem* item = nullptr);
-    bool childExists(stringTreeItem* item = nullptr);
-    stringTreeItem* findChild(const std::string& cname = "");
+    void add   (stringTreeItem* item = nullptr);
+    void add   (const std::string& cname = "", const std::string& cvalue = "");
+    void remove(stringTreeItem* item = nullptr);
+    bool exists(stringTreeItem* item = nullptr);
+    stringTreeItem* find(const std::string& cname = "");
   };
     
   class stringTree {
-    protected:
-      stringTreeItem rootItem;
-    public:
-      stringTree();
-      
-      void addChild   (stringTreeItem* item = nullptr);
-      void removeChild(stringTreeItem* item = nullptr);
-      bool childExists(stringTreeItem* item = nullptr);
-      stringTreeItem* findChild(const std::string& cname = "");
+  protected:
+    stringTreeItem rootItem;
+  public:
+    stringTree();
+    
+    void add   (stringTreeItem* item = nullptr);
+    void add   (const std::string& cname = "", const std::string& cvalue = "");
+    void remove(stringTreeItem* item = nullptr);
+    bool exists(stringTreeItem* item = nullptr);
+    stringTreeItem* find(const std::string& cname = "");
   };
 }
