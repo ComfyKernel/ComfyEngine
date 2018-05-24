@@ -9,7 +9,7 @@ all: $(BUILD)/$(OUT)
 
 $(BUILD)/$(OUT): $(OBJS)
 	@echo -en "[\e[34;1m  CXX  \e[0m] -c" $(OBJS) -o $(BUILD)/$(OUT)"\n"
-	@$(CC) $(CXXFLAGS) $(OBJS) -o $@ -lce
+	@$(CC) $(CXXFLAGS) $(OBJS) -Wl,-rpath,$(BUILD) -o $@ -lce
 
 %.o: %.cpp
 	@echo -e "[\e[31;1m  CXX  \e[0m] -c" $< -o $@
